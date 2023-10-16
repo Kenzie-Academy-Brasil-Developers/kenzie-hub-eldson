@@ -9,7 +9,8 @@ export const zodSchema = z.object({
         .min(8, "É necessário pelo menos oito caracteres.")
         .regex(/(?=.*?[A-Z])/, "É necessário pelo menos uma letra maiúscula")
         .regex(/(?=.*?[a-z])/, "É necessário pelo menos uma letra minúscula")
-        .regex(/(?=.*?[0-9])/, "É necessário pelo menos um número."),
+        .regex(/(?=.*?[0-9])/, "É necessário pelo menos um número.")
+        .regex(/(?=.*?[!@#$%^&*])/, "É necessário pelo menos um caractere especial (!@#$%^&*)."),
     confirmPassword: z.string()
         .nonempty("É necessário confirmar a senha")
         .refine(data => data.password === data.confirmPassword, {

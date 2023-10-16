@@ -31,6 +31,7 @@ export function Login() {
         .then((result) => {
             console.log(result.data)
             localStorage.setItem("@TOKEN", JSON.stringify(result.data.token))
+            localStorage.setItem("@USER", JSON.stringify(result.data.user))
             navigate("/dashboard")
         })
         .catch(() => {

@@ -104,8 +104,7 @@ export function Register() {
                         label="Selecionar módulo"
                         options={
                             [
-                                "Primeiro Módulo",
-                                "Segundo Módulo"
+                                "Primeiro Módulo (frontend avancado)"
                             ]
                         }
                         onRegister={{...register("module")}}
