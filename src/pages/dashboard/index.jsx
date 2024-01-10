@@ -3,16 +3,12 @@ import { Header } from "../../components/header"
 import { ButtonComponent } from "../../components/button";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useAuth } from "../../context/context";
 
 export function Dashboard() {
-    const navigate = useNavigate()
-    const [ user, setUser ] = useState({})
+    const { logOut } = useAuth()
 
-    const logout = () => {
-        localStorage.clear("@TOKEN")
-        localStorage.clear("@USER")
-        navigate("/")
-    }
+    const [ user, setUser ] = useState({})
 
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem("@USER") || "[]")
@@ -25,7 +21,7 @@ export function Dashboard() {
                 <ButtonComponent
                     title="Sair"
                     styleType="back"
-                    onClick={logout}
+                    onClick={logOut}
                 />
             </Header>
             <section>

@@ -4,7 +4,6 @@ import { Input } from "../../components/input";
 import { ButtonComponent } from "../../components/button";
 import { FormContainerStyle } from "../login/style";
 import { useNavigate } from "react-router-dom"
-import { api } from "../../services/api"
 import { useForm } from "react-hook-form"
 import { ToastContainer, toast } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css';
@@ -13,8 +12,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { zodSchema } from "../../services/zod"
 import { Selection } from "../../components/selection";
 
+import { useAuth } from "../../context/context";
+
 export function Register() {
     const navigate = useNavigate()
+    const { registerUser } = useAuth()
+
+    const navigationTo = (to) => {
+        navigate(to)
+    }
 
     const {
         register,
@@ -25,14 +31,13 @@ export function Register() {
     })
 
     const onSubmit = async (data) => {
-        console.log(data)
-        await api.post("/users", {
+        await registerUser({
             email: data.email,
             password: data.password,
             name: data.name,
             bio: data.bio,
             contact: data.contact,
-            course_module: data.module
+            course_module: data.course_module
         })
         .then(() => {
             toast.success("Conta criada com sucesso!")
@@ -47,7 +52,7 @@ export function Register() {
             <div className="container_form">
                 <Header space="space">
                     <ButtonComponent
-                        onClick={() => navigate("/")}
+                        onClick={() => navigationTo("/")}
                         styleType="back"
                         title="Voltar"
                     />

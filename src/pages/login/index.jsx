@@ -3,17 +3,26 @@ import { Header } from "../../components/header";
 import { Input } from "../../components/input";
 import { ButtonComponent } from "../../components/button";
 import { FormContainerStyle } from "./style";
-import { useNavigate } from "react-router-dom"
-import { useForm } from "react-hook-form"
+import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
-import { api } from "../../services/api"
 
-import { zodResolver } from "@hookform/resolvers/zod"
+import { zodResolver } from "@hookform/resolvers/zod";
 import 'react-toastify/dist/ReactToastify.css';
 import { zodSchemaLogin } from "../../services/zod";
 
+import { useAuth } from "../../context/context";
+import { useEffect } from "react";
+
 export function Login() {
     const navigate = useNavigate()
+    const { signIn, userLogged } = useAuth()
+
+    useEffect(() => {
+        if (userLogged()) {
+            navigate("/dashboard")
+        }
+    }, []);
 
     const {
         register,
@@ -24,14 +33,11 @@ export function Login() {
     })
 
     const onSubmit = async (data) => {
-        await api.post("/sessions", {
+        await signIn({
             email: data.email,
             password: data.password
         })
-        .then((result) => {
-            console.log(result.data)
-            localStorage.setItem("@TOKEN", JSON.stringify(result.data.token))
-            localStorage.setItem("@USER", JSON.stringify(result.data.user))
+        .then(() => {
             navigate("/dashboard")
         })
         .catch(() => {
